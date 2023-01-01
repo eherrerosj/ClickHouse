@@ -348,7 +348,7 @@ if [ -f core.zst ]; then
     CORE_LINK='<a href="core.zst">core.zst</a>'
 fi
 
-rg -F '<Fatal>' server.log > fatal.log ||:
+rg --text -F '<Fatal>' server.log > fatal.log ||:
 
 zstd --threads=0 server.log
 
