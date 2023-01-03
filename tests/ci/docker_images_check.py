@@ -189,7 +189,7 @@ def build_and_push_dummy_image(
     logging.info("Building docker image %s as %s", image.repo, dummy_source)
     build_log = (
         Path(TEMP_PATH)
-        / f"build_and_push_log_{image.repo.replace('/', '_')}_{version_string}"
+        / f"build_and_push_log_{image.repo.replace('/', '_')}_{version_string}.log"
     )
     with open(build_log, "wb") as bl:
         cmd = (
@@ -227,7 +227,7 @@ def build_and_push_one_image(
     )
     build_log = (
         Path(TEMP_PATH)
-        / f"build_and_push_log_{image.repo.replace('/', '_')}_{version_string}"
+        / f"build_and_push_log_{image.repo.replace('/', '_')}_{version_string}.log"
     )
     push_arg = ""
     if push:
