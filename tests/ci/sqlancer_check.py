@@ -16,7 +16,6 @@ from env_helper import (
     GITHUB_REPOSITORY,
     GITHUB_RUN_URL,
     REPORTS_PATH,
-    REPO_COPY,
     TEMP_PATH,
 )
 from get_robot_token import get_best_robot_token
@@ -107,10 +106,6 @@ def main():
                 logging.info("Run failed")
 
     subprocess.check_call(f"sudo chown -R ubuntu:ubuntu {temp_path}", shell=True)
-
-    check_name_lower = (
-        check_name.lower().replace("(", "").replace(")", "").replace(" ", "")
-    )
 
     tests = [
         "TLPGroupBy",
