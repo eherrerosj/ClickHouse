@@ -280,8 +280,8 @@ def process_single_image(
 ) -> TestResults:
     logging.info("Image will be pushed with versions %s", ", ".join(versions))
     results = []  # type: TestResults
-    stopwatch = Stopwatch()
     for ver in versions:
+        stopwatch = Stopwatch()
         for i in range(5):
             success, build_log = build_and_push_one_image(
                 image, ver, additional_cache, push, child
