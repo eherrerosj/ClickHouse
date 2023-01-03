@@ -4,20 +4,22 @@ import os
 import logging
 import subprocess
 import sys
+from typing import List, Tuple
 
 from github import Github
 
+from build_download_helper import download_shared_build
+from clickhouse_helper import ClickHouseHelper, prepare_tests_results_for_clickhouse
+from commit_status_helper import post_commit_status
+from docker_pull_helper import get_image_with_version
 from env_helper import TEMP_PATH, REPO_COPY, REPORTS_PATH
-from s3_helper import S3Helper
 from get_robot_token import get_best_robot_token
 from pr_info import PRInfo
-from build_download_helper import download_shared_build
-from upload_result_helper import upload_results
-from docker_pull_helper import get_image_with_version
-from commit_status_helper import post_commit_status
-from clickhouse_helper import ClickHouseHelper, prepare_tests_results_for_clickhouse
-from stopwatch import Stopwatch
+from report import TestResults, TestResult
 from rerun_helper import RerunHelper
+from s3_helper import S3Helper
+from stopwatch import Stopwatch
+from upload_result_helper import upload_results
 
 
 DOCKER_IMAGE = "clickhouse/split-build-smoke-test"
@@ -26,16 +28,18 @@ RESULT_LOG_NAME = "run.log"
 CHECK_NAME = "Split build smoke test"
 
 
-def process_result(result_folder, server_log_folder):
+def process_result(
+    result_folder: str, server_log_folder: str
+) -> Tuple[str, str, TestResults, List[str]]:
     status = "success"
     description = "Server started and responded"
-    summary = [("Smoke test", "OK")]
+    summary = [TestResult("Smoke test", "OK")]
     with open(os.path.join(result_folder, RESULT_LOG_NAME), "r") as run_log:
         lines = run_log.read().split("\n")
         if not lines or lines[0].strip() != "OK":
             status = "failure"
             logging.info("Lines is not ok: %s", str("\n".join(lines)))
-            summary = [("Smoke test", "FAIL")]
+            summary = [TestResult("Smoke test", "FAIL")]
             description = "Server failed to respond, see result in logs"
 
     result_logs = []
@@ -150,5 +154,5 @@ if __name__ == "__main__":
 
     ch_helper.insert_events_into(db="default", table="checks", events=prepared_events)
 
-    if state == "error":
+    if state == "failure":
         sys.exit(1)
