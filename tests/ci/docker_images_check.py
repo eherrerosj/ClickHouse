@@ -463,9 +463,6 @@ def main():
 
     s3_helper = S3Helper()
 
-    s3_path_prefix = (
-        str(pr_info.number) + "/" + pr_info.sha + "/" + NAME.lower().replace(" ", "_")
-    )
     status = "success"
     if [r for r in test_results if r.status != "OK"]:
         status = "failure"

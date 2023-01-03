@@ -3,7 +3,6 @@
 from typing import List, Tuple
 import argparse
 import csv
-import itertools
 import logging
 import os
 

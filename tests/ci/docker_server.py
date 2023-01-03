@@ -8,7 +8,7 @@ import subprocess
 import sys
 import time
 from os import path as p, makedirs
-from typing import List, Tuple
+from typing import List
 
 from github import Github
 

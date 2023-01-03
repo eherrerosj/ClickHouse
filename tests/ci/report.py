@@ -232,7 +232,6 @@ def create_test_html_report(
         num_fails = 0
         has_test_time = False
         has_log_urls = False
-        has_raw_logs = False
 
         # Display entires with logs at the top (they correspond to failed tests)
         test_results.sort(
@@ -244,10 +243,6 @@ def create_test_html_report(
             colspan = 0
             if test_result.log_files is not None:
                 has_log_urls = True
-
-            if test_result.raw_logs is not None:
-                # test_logs = result[3]
-                has_raw_logs = True
 
             row = "<tr>"
             is_fail = test_result.status in ("FAIL", "FLAKY")

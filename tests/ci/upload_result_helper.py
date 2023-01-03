@@ -1,7 +1,6 @@
 from typing import List
 import os
 import logging
-import ast
 
 from env_helper import (
     GITHUB_JOB_URL,

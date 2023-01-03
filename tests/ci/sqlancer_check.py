@@ -4,7 +4,7 @@ import logging
 import subprocess
 import os
 import sys
-from typing import List, Tuple
+from typing import List
 
 from github import Github
 
@@ -55,7 +55,6 @@ def main():
     stopwatch = Stopwatch()
 
     temp_path = TEMP_PATH
-    repo_path = REPO_COPY
     reports_path = REPORTS_PATH
 
     check_name = sys.argv[1]
@@ -112,7 +111,6 @@ def main():
     check_name_lower = (
         check_name.lower().replace("(", "").replace(")", "").replace(" ", "")
     )
-    s3_prefix = f"{pr_info.number}/{pr_info.sha}/{check_name_lower}/"
 
     tests = [
         "TLPGroupBy",
